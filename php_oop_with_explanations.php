@@ -400,12 +400,12 @@ MyClassChild::staticMethod();
 // Namespace được khai báo ở đầu tệp PHP, trước bất kỳ mã nào khác (ngoại trừ các câu lệnh declare)
 
 
-namespace MyApp;
-class MyClass {
-    public function sayHello() {
-        echo "Hello from MyApp!";
-    }
-}
+// namespace MyApp;
+// class MyClass {
+//     public function sayHello() {
+//         echo "Hello from MyApp!";
+//     }
+// }
 
 // Tệp khác
 require 'MyApp.php';
@@ -427,6 +427,47 @@ function printIterable(iterable $items) {
         echo $item . "\n";
     }
 }
+
+class MyIterator implements Iterator {
+    private $data = ["X", "Y", "Z"];
+    private $index = 0;
+
+    // Trả về phần tử hiện tại
+    public function current(): mixed {
+        return $this->data[$this->index];
+    }
+
+    // Trả về khóa hiện tại
+    public function key(): int {
+        return $this->index;
+    }
+
+    // Di chuyển con trỏ đến phần tử tiếp theo
+    public function next(): void {
+        $this->index++;
+    }
+
+    // Đặt lại con trỏ về phần tử đầu tiên
+    public function rewind(): void {
+        $this->index = 0;
+    }
+
+    // Kiểm tra xem phần tử hiện tại có hợp lệ hay không
+    public function valid(): bool {
+        return isset($this->data[$this->index]);
+    }
+}
+
+// Sử dụng lớp MyIterator
+$iterator = new MyIterator();
+foreach ($iterator as $key => $value) {
+    echo "Key: $key, Value: $value\n";
+}
+
+// Output:
+// Key: 0, Value: X
+// Key: 1, Value: Y
+// Key: 2, Value: Z
 
 $items = ["Apple", "Banana", "Cherry"];
 echo "14. PHP Iterables\n";

@@ -1,7 +1,7 @@
 # PHP OOP Documentation
 
 ## 1. PHP What is OOP
--OOP (Object-Oriented Programming) là một phương pháp lập trình dựa trên các đối tượng.
+*OOP (Object-Oriented Programming) là một phương pháp lập trình dựa trên các đối tượng.
 
 ---
 
@@ -25,7 +25,7 @@ echo $myCar->drive(); // Output: Driving a Red Toyota
 ---
 
 ## 3. PHP Constructor
--Constructor: Phương thức khởi tạo tự động gọi khi đối tượng được tạo.
+*Constructor: Phương thức khởi tạo tự động gọi khi đối tượng được tạo.
 khi khởi tạo 1 class thì contructsor sẽ đảm nhiệm vai trò gán giá trị ban đầu cho các biến trong class, nếu không có phải thực hiện gán thủ công
 ```php
 class User {
@@ -39,7 +39,7 @@ class User {
 $user = new User("Alice"); // Khởi tạo giá trị $name qua constructor
 echo $user->name; // Output: Alice
 ```
-gán thủ công khi không dùng constructor
+*gán thủ công khi không dùng constructor
 ```php
 $user = new User();
 $user->name = "Alice";
@@ -47,9 +47,9 @@ $user->name = "Alice";
 ---
 
 ## 4. PHP Destructor
--Destructor: Phương thức tự động gọi khi đối tượng bị hủy, thường dùng để dọn dẹp tài nguyên.
--Giải phóng tài nguyên (đóng kết nối cơ sở dữ liệu, đóng file, giải phóng bộ nhớ, v.v.).
--Ghi lại log hoặc thực hiện các tác vụ dọn dẹp khác.
+*Destructor: Phương thức tự động gọi khi đối tượng bị hủy, thường dùng để dọn dẹp tài nguyên.
+*Giải phóng tài nguyên (đóng kết nối cơ sở dữ liệu, đóng file, giải phóng bộ nhớ, v.v.).
+*Ghi lại log hoặc thực hiện các tác vụ dọn dẹp khác.
 Đảm bảo các tác vụ quan trọng được thực hiện trước khi đối tượng không còn tồn tại.
 ```php
 class Test {
@@ -60,8 +60,8 @@ class Test {
 
 $obj = new Test(); // __destruct() is called automatically at the end of the script.
 ```
--lưu ý __destruct() được tự động gọi khi chương trình kết thúc và đối tượng $obj không còn cần thiết.
--Không nên tạo các đối tượng mới trong destructor:
+*lưu ý __destruct() được tự động gọi khi chương trình kết thúc và đối tượng $obj không còn cần thiết.
+*Không nên tạo các đối tượng mới trong destructor:
 ```php
 class LoopDestruct {
     public function __destruct() {
@@ -85,13 +85,12 @@ $b = new B();
 // Destroying B
 // Destroying A
 ```
--Nếu không định nghĩa __destruct(), PHP sẽ tự động giải phóng tài nguyên cho đối tượng. (gây nặng cho việc load file PHP cần sử dụng unset($class))
+*Nếu không định nghĩa __destruct(), PHP sẽ tự động giải phóng tài nguyên cho đối tượng. (gây nặng cho việc load file PHP cần sử dụng unset($class))
 
 ---
 
 ## 5. PHP Access Modifiers
--Access modifiers (public, private, protected): Quản lý quyền truy cập thuộc tính/phương thức.
-
+*Access modifiers (public, private, protected): Quản lý quyền truy cập thuộc tính/phương thức.
 ```php
 class MyClass {
     public $publicNumber;    // Có thể truy cập từ bất kỳ đâu
@@ -146,7 +145,7 @@ $subClassObject->displayNumbers();
 ---
 
 ## 6. PHP Inheritance
-Inheritance: Một lớp có thể kế thừa thuộc tính và phương thức từ lớp cha.
+*Inheritance: Một lớp có thể kế thừa thuộc tính và phương thức từ lớp cha.
 ```php
 class ParentClass {
     public function sayHello() {
@@ -164,15 +163,15 @@ echo $child->sayHello(); // Output: Hello from Parent
 ---
 
 ## 7. PHP Constants
--Constants: Hằng số trong lớp, không thể thay đổi sau khi khai báo.
+*Constants: Hằng số trong lớp, không thể thay đổi sau khi khai báo.
 Không thay đổi giá trị: Một khi đã khai báo, giá trị của hằng số không thể thay đổi.
--Không cần ký hiệu $: Khác với biến, hằng số không cần dấu $ ở trước tên.
+*Không cần ký hiệu $: Khác với biến, hằng số không cần dấu $ ở trước tên.
 Phạm vi toàn cục (Global Scope): Hằng số có thể được truy cập từ bất kỳ nơi nào trong mã, bất kể phạm vi (scope).
--Tên phải tuân thủ quy tắc đặt tên:
--Bắt đầu bằng chữ cái hoặc dấu gạch dưới _.
--Không được bắt đầu bằng số.
--Tên hằng số thường viết in hoa để phân biệt với biến.
--Khác với define, const có thể Khai báo bên trong lớp, define thì không
+*Tên phải tuân thủ quy tắc đặt tên:
+*Bắt đầu bằng chữ cái hoặc dấu gạch dưới _.
+*Không được bắt đầu bằng số.
+*Tên hằng số thường viết in hoa để phân biệt với biến.
+*Khác với define, const có thể Khai báo bên trong lớp, define thì không
 ```php
 define("PI", 3.14159);
 
@@ -185,9 +184,9 @@ echo Config::APP_NAME; // Output: MyApp
 ---
 
 ## 8. PHP Abstract Classes
--Abstract class: Lớp trừu tượng không thể tạo đối tượng trực tiếp, dùng để định nghĩa hành vi chung.
--Các lớp con kế thừa bắt buộc phải có Phương thức abstract của hàm cha
--Có thể gọi hàm kế thừa từ hàm cha
+*Abstract class: Lớp trừu tượng không thể tạo đối tượng trực tiếp, dùng để định nghĩa hành vi chung.
+*Các lớp con kế thừa bắt buộc phải có Phương thức abstract của hàm cha
+*Có thể gọi hàm kế thừa từ hàm cha
 ```php
 abstract class Animal {
     // Phương thức bình thường (có phần thân)
@@ -225,8 +224,8 @@ $cat->makeSound();   // Triển khai trong lớp con
 ---
 
 ## 9. PHP Interfaces
--Interface: Tập hợp các phương thức mà lớp phải triển khai, không chứa logic (thân hàm).
--Các lớp con kế thừa bắt buộc phải có Phương thức của hàm cha
+*Interface: Tập hợp các phương thức mà lớp phải triển khai, không chứa logic (thân hàm).
+*Các lớp con kế thừa bắt buộc phải có Phương thức của hàm cha
 ```php
 // Định nghĩa một interface
 interface AnimalInterface {
@@ -256,9 +255,9 @@ $dog->eat();        // Output: Eating food...
 ---
 
 ## 10. PHP Traits
--Traits: Cho phép dùng lại các phương thức trong nhiều lớp, giải quyết hạn chế kế thừa đơn.
--PHP chỉ hỗ trợ kế thừa đơn (một lớp chỉ có thể kế thừa từ một lớp cha duy nhất) dùng traits sẽ giải quyết được vấn đề này
--Định nghĩa một Trait
+*Traits: Cho phép dùng lại các phương thức trong nhiều lớp, giải quyết hạn chế kế thừa đơn.
+*PHP chỉ hỗ trợ kế thừa đơn (một lớp chỉ có thể kế thừa từ một lớp cha duy nhất) dùng traits sẽ giải quyết được vấn đề này
+*Định nghĩa một Trait
 ```php
 trait MyTrait {
     public function greet() {
@@ -359,10 +358,10 @@ echo Math::add(2, 3); // Output: 5
 ---
 
 ## 12. PHP Static Properties
--Static property: Thuộc tính tĩnh dùng chung cho tất cả các đối tượng của lớp.
--Không cần tạo đối tượng: Phương thức tĩnh có thể được gọi mà không cần phải tạo một đối tượng của lớp.
--Chỉ có thể truy cập thông qua tên lớp cú pháp MyClass::staticMethod();
--Thay $this-> bằng self::,parent:: để truy cập thuộc tính và phương thức tĩnh
+*Static property: Thuộc tính tĩnh dùng chung cho tất cả các đối tượng của lớp.
+*Không cần tạo đối tượng: Phương thức tĩnh có thể được gọi mà không cần phải tạo một đối tượng của lớp.
+*Chỉ có thể truy cập thông qua tên lớp cú pháp MyClass::staticMethod();
+*Thay $this-> bằng self::,parent:: để truy cập thuộc tính và phương thức tĩnh
 
 ```php
 class MyClass1111 {
@@ -404,9 +403,9 @@ MyClassChild::staticMethod();
 ---
 
 ## 13. PHP Namespaces
-Namespaces Giúp tránh xung đột tên trong các dự án lớn
-Namespaces cung cấp một không gian riêng biệt cho từng nhóm
-Namespace được khai báo ở đầu tệp PHP trước bất kỳ mã nào khác ngoại trừ các câu lệnh declare
+*Namespaces Giúp tránh xung đột tên trong các dự án lớn.
+*Namespaces cung cấp một không gian riêng biệt cho từng nhóm.
+*Namespace được khai báo ở đầu tệp PHP trước bất kỳ mã nào khác ngoại trừ các câu lệnh declare.
 ```php
 namespace MyApp;
 class MyClass {
@@ -428,7 +427,7 @@ Fmt::statictismethod();
 ---
 
 ## 14. PHP Iterables
-Iterables: Dữ liệu có thể duyệt qua như mảng hoặc iterator.
+*Iterables: Dữ liệu có thể duyệt qua như mảng hoặc iterator.
 ```php
 function printIterable(iterable $items) {
     foreach ($items as $item) {

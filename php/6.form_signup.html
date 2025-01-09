@@ -83,7 +83,7 @@
 
     <div class="container">
         <h2>Đăng ký tài khoản</h2>
-        <form id="registrationForm" onsubmit="return submit()" method="POST" action="submit.php">
+        <form id="registrationForm" onsubmit="submitcustom(event)" method="POST" action="6.form_submit.php">
             <div class="form-group">
                 <label for="name">Họ và Tên</label>
                 <input type="text" id="name" name="name" placeholder="Nhập họ và tên" required>
@@ -111,62 +111,68 @@
             <button type="submit">Đăng ký</button>
         </form>
     </div>
+
+    <script>
+        function validateForm() {
+            // Lấy giá trị từ các trường input
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            let isValid = true;
+
+            // Reset thông báo lỗi
+            document.getElementById('nameError').style.display = 'none';
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+            document.getElementById('confirmPasswordError').style.display = 'none';
+
+            // Kiểm tra trường tên
+            if (name === '') {
+                document.getElementById('nameError').innerText = 'Tên không được để trống.';
+                document.getElementById('nameError').style.display = 'inline';
+                isValid = false;
+            }
+
+            // Kiểm tra trường email
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (email === '' || !emailPattern.test(email)) {
+                document.getElementById('emailError').innerText = 'Vui lòng nhập email hợp lệ.';
+                document.getElementById('emailError').style.display = 'inline';
+                isValid = false;
+            }
+
+            // Kiểm tra trường mật khẩu
+            if (password === '') {
+                document.getElementById('passwordError').innerText = 'Mật khẩu không được để trống.';
+                document.getElementById('passwordError').style.display = 'inline';
+                isValid = false;
+            } else if (password.length < 6) {
+                document.getElementById('passwordError').innerText = 'Mật khẩu phải có ít nhất 6 ký tự.';
+                document.getElementById('passwordError').style.display = 'inline';
+                isValid = false;
+            }
+
+            // Kiểm tra xác nhận mật khẩu
+            if (confirmPassword !== password) {
+                document.getElementById('confirmPasswordError').innerText = 'Mật khẩu xác nhận không khớp.';
+                document.getElementById('confirmPasswordError').style.display = 'inline';
+                isValid = false;
+            }
+            return isValid;
+        }
+
+        function submitcustom(event) {
+            event.preventDefault(); // Ngừng hành vi mặc định của form
+            if (validateForm()) {
+                // Submit form nếu hợp lệ
+                document.getElementById("registrationForm").submit();
+            } else {
+                // Nếu không hợp lệ, không làm gì cả
+                return false;
+            }
+        }
+    </script>
 </body>
-
 </html>
-<script>
-    function validateForm() {
-        // Lấy giá trị từ các trường input
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-
-        let isValid = true;
-
-        // Reset thông báo lỗi
-        document.getElementById('nameError').style.display = 'none';
-        document.getElementById('emailError').style.display = 'none';
-        document.getElementById('passwordError').style.display = 'none';
-        document.getElementById('confirmPasswordError').style.display = 'none';
-
-        // Kiểm tra trường tên
-        if (name === '') {
-            document.getElementById('nameError').innerText = 'Tên không được để trống.';
-            document.getElementById('nameError').style.display = 'inline';
-            isValid = false;
-        }
-
-        // Kiểm tra trường email
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-        if (email === '' || !emailPattern.test(email)) {
-            document.getElementById('emailError').innerText = 'Vui lòng nhập email hợp lệ.';
-            document.getElementById('emailError').style.display = 'inline';
-            isValid = false;
-        }
-
-        // Kiểm tra trường mật khẩu
-        if (password === '') {
-            document.getElementById('passwordError').innerText = 'Mật khẩu không được để trống.';
-            document.getElementById('passwordError').style.display = 'inline';
-            isValid = false;
-        } else if (password.length < 6) {
-            document.getElementById('passwordError').innerText = 'Mật khẩu phải có ít nhất 6 ký tự.';
-            document.getElementById('passwordError').style.display = 'inline';
-            isValid = false;
-        }
-
-        // Kiểm tra xác nhận mật khẩu
-        if (confirmPassword !== password) {
-            document.getElementById('confirmPasswordError').innerText = 'Mật khẩu xác nhận không khớp.';
-            document.getElementById('confirmPasswordError').style.display = 'inline';
-            isValid = false;
-        }
-        return isValid;
-    }
-    function submit(){
-        if(validateForm()){
-            document.getElementById("registrationForm").submit;
-        }
-    }
-</script>

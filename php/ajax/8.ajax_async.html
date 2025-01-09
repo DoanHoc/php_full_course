@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple AJAX Requests with Promises</title>
+    <script>
+        // Hàm gửi yêu cầu AJAX POST và trả về Promise
+        function sendRequest(url, data) {
+            return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())  // Chuyển đổi dữ liệu trả về thành JSON
+            .then(data => {
+                return data;  // Trả lại kết quả từ máy chủ
+            })
+            .catch(error => {
+                return { error: error.message };  // Xử lý lỗi nếu có
+            });
+        }
+
+        // Hàm thực hiện nhiều yêu cầu đồng thời
+        async function sendMultipleRequests() {
+            const requestData1 = { id: 1, name: 'John' };
+            const requestData2 = { id: 2, name: 'Jane' };
+            const requestData3 = { id: 3, name: 'Doe' };
+
+            try {
+                // // Sử dụng Promise.all() để gửi các yêu cầu đồng thời
+                // const responses = await Promise.all([
+                //     sendRequest('8.ajax_async.php', requestData1),
+                //     sendRequest('8.ajax_async.php', requestData2),
+                //     sendRequest('8.ajax_async.php', requestData3)
+                // ]);
+                // // Xử lý các kết quả trả về từ server
+                // document.getElementById('response').innerHTML = `
+                //     Response 1: ${JSON.stringify(responses[0])}<br>
+                //     Response 2: ${JSON.stringify(responses[1])}<br>
+                //     Response 3: ${JSON.stringify(responses[2])}
+                // `;
+                const response1 = await sendRequest('8.ajax_async.php', requestData1);
+                document.getElementById('response').innerHTML += `
+                    Response 1: ${JSON.stringify(response1)}<br>
+                `;
+
+                const response2 = await sendRequest('8.ajax_async.php', requestData2);
+                document.getElementById('response').innerHTML += `
+                    Response 2: ${JSON.stringify(response2)}<br>
+                `;
+
+                const response3 = await sendRequest('8.ajax_async.php', requestData3);
+                document.getElementById('response').innerHTML += `
+                    Response 3: ${JSON.stringify(response3)}<br>
+                `;
+            } catch (error) {
+                // Xử lý lỗi nếu có
+                document.getElementById('response').innerHTML = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Send Multiple Requests Simultaneously with Promises</h1>
+    <button onclick="sendMultipleRequests()">Send Multiple Requests</button>
+    <div id="response"></div>
+</body>
+</html>

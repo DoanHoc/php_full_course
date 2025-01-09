@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX Request Example</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border: 1px solid #4CAF50;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        table td {
+            color: #555;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        #resultTable {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Send Data to Server and Display Results in Table</h1>
+
+        <!-- Form để gửi dữ liệu -->
+        <form id="dataForm">
+            <label for="name">Name: </label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="age">Age: </label>
+            <input type="number" id="age" name="age" required>
+
+            <button type="submit">Send Data</button>
+        </form>
+
+        <!-- Khu vực để hiển thị bảng kết quả -->
+        <div id="resultTable"></div>
+    </div>
+
+    <script>
+        // Hàm gửi yêu cầu POST đến server
+        function sendRequest(url, data) {
+            return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())  // Chuyển dữ liệu trả về thành JSON
+            .then(data => {
+                return data;  // Trả lại dữ liệu từ server
+            })
+            .catch(error => ({ error: error.message }));  // Xử lý lỗi
+        }
+
+        // Hàm xử lý sự kiện gửi dữ liệu
+        document.getElementById('dataForm').addEventListener('submit', async function(event) {
+            event.preventDefault();  // Ngừng hành động mặc định của form (không reload trang)
+
+            // Lấy dữ liệu từ form
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+
+            // Gửi dữ liệu đến server
+            const requestData = { name, age };
+            const serverData = await sendRequest('8.ajax_example.php', requestData);
+
+            // Hiển thị dữ liệu dưới dạng bảng
+            if (serverData.status === 'success') {
+                displayTable(serverData.data);
+            } else {
+                alert(serverData.message);
+            }
+        });
+
+        // Hàm hiển thị bảng từ dữ liệu nhận được từ server
+        function displayTable(data) {
+            let tableHTML = '<table>';
+            tableHTML += '<thead><tr><th>Name</th><th>Age</th></tr></thead>';
+            tableHTML += '<tbody>';
+
+            // Tạo mỗi hàng trong bảng
+            data.forEach(row => {
+                tableHTML += `<tr><td>${row.name}</td><td>${row.age}</td></tr>`;
+            });
+
+            tableHTML += '</tbody></table>';
+            document.getElementById('resultTable').innerHTML = tableHTML;
+        }
+    </script>
+</body>
+</html>

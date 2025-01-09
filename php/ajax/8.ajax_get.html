@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX Example with Fetch</title>
+    <script>
+        // Hàm gửi yêu cầu AJAX bằng Fetch API
+        function sendRequest() {
+            // Sử dụng Fetch API để gửi yêu cầu GET tới process.php
+            fetch('8.ajax_get.php')
+                .then(response => {
+                    // Kiểm tra nếu phản hồi thành công (status 200)
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    // Trả về dữ liệu dạng text
+                    return response.text();
+                })
+                .then(data => {
+                    // Hiển thị kết quả trả về trong phần tử HTML có id 'response'
+                    document.getElementById('response').innerHTML = data;
+                })
+                .catch(error => {
+                    // Xử lý lỗi nếu có
+                    document.getElementById('response').innerHTML = 'Error: ' + error.message;
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>AJAX Example using Fetch API</h1>
+    <button onclick="sendRequest()">Send Request</button>
+    <div id="response"></div>
+</body>
+</html>

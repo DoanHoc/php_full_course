@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX POST Example with Fetch</title>
+    <script>
+        // Hàm gửi yêu cầu POST bằng Fetch API
+        function sendPostRequest() {
+            // Dữ liệu cần gửi
+            const data = {
+                name: 'John Doe',
+                email: 'johndoe@example.com'
+            };
+
+            // Sử dụng Fetch API để gửi yêu cầu POST tới process.php
+            fetch('8.ajax_post.php', {
+                method: 'POST', // Đặt phương thức là POST
+                headers: {
+                    'Content-Type': 'application/json' // Thiết lập kiểu dữ liệu gửi đi là JSON
+                },
+                body: JSON.stringify(data) // Chuyển đổi dữ liệu thành chuỗi JSON
+            })
+            .then(response => {
+                // Kiểm tra nếu phản hồi thành công (status 200)
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Trả về dữ liệu dạng text
+                return response.text();
+            })
+            .then(data => {
+                // Hiển thị kết quả trả về trong phần tử HTML có id 'response'
+                document.getElementById('response').innerHTML = data;
+            })
+            .catch(error => {
+                // Xử lý lỗi nếu có
+                document.getElementById('response').innerHTML = 'Error: ' + error.message;
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>AJAX POST Example using Fetch API</h1>
+    <button onclick="sendPostRequest()">Send POST Request</button>
+    <div id="response"></div>
+</body>
+</html>

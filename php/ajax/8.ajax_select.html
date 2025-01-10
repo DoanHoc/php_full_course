@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chọn Tỉnh Thành, Thành Phố, Quận Huyện</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #007bff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+        }
+
+        .dropdown-icon {
+            position: relative;
+        }
+
+        select + .dropdown-icon::after {
+            content: '▼';
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #6c757d;
+        }
+    </style>
+    <script>
+        // Hàm gửi yêu cầu AJAX và trả về Promise
+        function fetchData(action, data) {
+            return fetch('8.ajax_select.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action, ...data }),
+            })
+            .then(response => response.json())
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Khi chọn tỉnh thành
+        async function onProvinceChange() {
+            const provinceId = document.getElementById('province').value;
+            const cities = await fetchData('load_thanhpho', { provinceId });
+            updateDropdown('city', cities);
+            updateDropdown('district', []); // Reset quận huyện
+        }
+
+        // Khi chọn thành phố
+        async function onCityChange() {
+            const cityId = document.getElementById('city').value;
+            if (cityId) {
+                const districts = await fetchData('load_quanhuyen', { cityId });
+                updateDropdown('district', districts);
+            }
+        }
+
+        // Hàm cập nhật dropdown
+        function updateDropdown(elementId, items) {
+            const dropdown = document.getElementById(elementId);
+            dropdown.innerHTML = '<option value="">-- Chọn --</option>'; // Reset options
+            items.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = item.name;
+                dropdown.appendChild(option);
+            });
+        }
+
+        // Tải danh sách tỉnh thành khi trang load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const provinces = await fetchData('load_tinhthanh', {});
+            updateDropdown('province', provinces);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Chọn Địa Điểm</h1>
+        <div class="form-group">
+            <label for="province">Tỉnh/Thành Phố:</label>
+            <div class="dropdown-icon">
+                <select id="province" onchange="onProvinceChange()">
+                    <option value="">-- Chọn Tỉnh/Thành Phố --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="city">Thành Phố:</label>
+            <div class="dropdown-icon">
+                <select id="city" onchange="onCityChange()">
+                    <option value="">-- Chọn Thành Phố --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="district">Quận/Huyện:</label>
+            <div class="dropdown-icon">
+                <select id="district">
+                    <option value="">-- Chọn Quận/Huyện --</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
